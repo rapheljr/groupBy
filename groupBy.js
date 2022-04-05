@@ -1,30 +1,29 @@
 const assert = require('./assert.js').assert;
 
-const areArraysEqual = function (array1, array2) {
-  if (array1.length !== array2.length) {
+const areArraysEqual = function (arrayOne, arrayTwo) {
+  if (arrayOne.length !== arrayTwo.length) {
     return false;
   }
-  for (let index = 0; index < array1.length; index++) {
-    if (array1[index] !== array2[index])
+  for (let index = 0; index < arrayOne.length; index++) {
+    if (arrayOne[index] !== arrayTwo[index])
       return false;
   }
   return true;
 };
 
 const areEqual = function (elementOne, elementTwo) {
-  if (elementOne.length === undefined || elementTwo.length === undefined) {
+  if (!Array.isArray(elementOne) || !Array.isArray(elementTwo)) {
     return elementOne === elementTwo;
   }
   return areArraysEqual(elementOne, elementTwo);
 };
 
 const isIncludes = function (element, array) {
-  if (element.length === undefined) {
+  if (!Array.isArray(element)) {
     return array.includes(element);
   }
-
   for (let outerIndex = 0; outerIndex < array.length; outerIndex++) {
-    if (array[outerIndex].length === undefined) {
+    if (!Array.isArray(array[outerIndex])) {
       continue;
     }
     if (areArraysEqual(element, array[outerIndex])) {
@@ -47,7 +46,6 @@ const uniqueElements = function (array) {
 const groupSameElements = function (array) {
   const unique = uniqueElements(array);
   const groupedElements = [];
-
   for (let outerIndex = 0; outerIndex < unique.length; outerIndex++) {
     const sameElements = [];
     for (let innerIndex = 0; innerIndex < array.length; innerIndex++) {
