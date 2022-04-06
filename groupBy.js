@@ -32,7 +32,7 @@ const elementGroup = function (element, array) {
     }
   }
   return group;
-}
+};
 
 const groupSameElements = function (array) {
   const unique = uniqueElements(array);
@@ -64,4 +64,6 @@ const elementGroupingTestCases = function () {
   testElementGrouping([[1, 1], 1, [1, 1], 1], [[[1, 1], [1, 1]], [1, 1]], 'An array with numbers and an array');
 };
 
-elementGroupingTestCases();
+// elementGroupingTestCases();
+
+exports.uniqueElements = uniqueElements;
