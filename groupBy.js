@@ -1,32 +1,13 @@
 const assert = require('./assert.js').assert;
+const isEqual = require('./isEqual.js').isEqual;
 
-const areArraysEqual = function (arrayOne, arrayTwo) {
-  if (arrayOne.length !== arrayTwo.length) {
-    return false;
-  }
-  for (let index = 0; index < arrayOne.length; index++) {
-    if (arrayOne[index] !== arrayTwo[index])
-      return false;
-  }
-  return true;
-};
-
-const areEqual = function (elementOne, elementTwo) {
-  if (!Array.isArray(elementOne) || !Array.isArray(elementTwo)) {
-    return elementOne === elementTwo;
-  }
-  return areArraysEqual(elementOne, elementTwo);
-};
-
-const isIncludes = function (element, array) {
+const contains = function (array, element) {
   if (!Array.isArray(element)) {
     return array.includes(element);
   }
-  for (let outerIndex = 0; outerIndex < array.length; outerIndex++) {
-    if (!Array.isArray(array[outerIndex])) {
-      continue;
-    }
-    if (areArraysEqual(element, array[outerIndex])) {
+
+  for (let index = 0; index < array.length; index++) {
+    if (isEqual(element, array[index])) {
       return true;
     }
   }
@@ -36,24 +17,28 @@ const isIncludes = function (element, array) {
 const uniqueElements = function (array) {
   const unique = [];
   for (let index = 0; index < array.length; index++) {
-    if (!isIncludes(array[index], unique)) {
+    if (!contains(unique, array[index])) {
       unique.push(array[index]);
     }
   }
   return unique;
 };
 
+const elementGroup = function (element, array) {
+  const group = [];
+  for (let index = 0; index < array.length; index++) {
+    if (isEqual(element, array[index])) {
+      group.push(array[index]);
+    }
+  }
+  return group;
+}
+
 const groupSameElements = function (array) {
   const unique = uniqueElements(array);
   const groupedElements = [];
-  for (let outerIndex = 0; outerIndex < unique.length; outerIndex++) {
-    const sameElements = [];
-    for (let innerIndex = 0; innerIndex < array.length; innerIndex++) {
-      if (areEqual(unique[outerIndex], array[innerIndex])) {
-        sameElements.push(array[innerIndex]);
-      }
-    }
-    groupedElements.push(sameElements);
+  for (let index = 0; index < unique.length; index++) {
+    groupedElements.push(elementGroup(unique[index], array));
   }
   return groupedElements;
 };
@@ -76,8 +61,7 @@ const elementGroupingTestCases = function () {
   testElementGrouping([1, 2, [1, 1], [1, 1]], [[1], [2], [[1, 1], [1, 1]]], 'An array with numbers and an array');
   testElementGrouping([1, 2, 1], [[1, 1], [2]], 'An array with numbers and an array');
   testElementGrouping([1, 2, 3, 1, 2, 4], [[1, 1], [2, 2], [3], [4]], 'An array with numbers and an array');
-  testElementGrouping([[1, 1], 1, [1, 1], 1], [[1, 1], [[1, 1], [1, 1]]], 'An array with numbers and an array');
+  testElementGrouping([[1, 1], 1, [1, 1], 1], [[[1, 1], [1, 1]], [1, 1]], 'An array with numbers and an array');
 };
 
 elementGroupingTestCases();
-// console.log(groupSameElements([[[1], [2]], [[1], [2]], 1]));
