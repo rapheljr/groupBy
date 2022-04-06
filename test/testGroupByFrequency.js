@@ -1,12 +1,12 @@
 const assert = require('./assert.js').assert;
-const elementFrequencies = require('../src/groupByFrequency.js').elementFrequencies;
+const countFrequency = require('../src/groupByFrequency.js').countFrequency;
 
 const testElementsFrequencies = function (array, expected, message) {
-  const actual = elementFrequencies(array);
+  const actual = countFrequency(array);
   assert(actual, expected, message);
 };
 
-const elementFrequenciesTestCases = function () {
+const countFrequencyTestCases = function () {
   testElementsFrequencies(
     [1],
     [[1, 1]], 'Single element.');
@@ -15,7 +15,10 @@ const elementFrequenciesTestCases = function () {
     [[1, 1], [2, 1]], 'Multiple elements.');
   testElementsFrequencies(
     [[1, 1], 2, [1, 1]],
-    [[[1, 1], 2], [2, 1]], 'Nested elements.');
+    [[[1, 1], 2], [2, 1]], '2D array with a element repeated twice.');
+  testElementsFrequencies(
+    [[[1, 1]], [[1, 1]], 2, [[1, 1]], 2],
+    [[[[1, 1]], 3], [2, 2]], '2D array with duplicate elements.');
 };
 
-elementFrequenciesTestCases();
+countFrequencyTestCases();

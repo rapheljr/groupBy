@@ -1,24 +1,18 @@
-const isEqual = require('./isEqual.js').isEqual;
-const uniqueElements = require('./groupBy.js').uniqueElements;
+const indexOf = require('./groupBy.js').indexOf;
 
-const countFrequency = function (array, element) {
-  let count = 0;
+const countFrequency = function (array) {
+  const groupedElements = [];
   for (let index = 0; index < array.length; index++) {
-    if (isEqual(element, array[index])) {
-      count++;
+    let position = indexOf(groupedElements, array[index]);
+    if (position === -1) {
+      groupedElements.push([array[index], 0]);
+      position = groupedElements.length - 1;
     }
+    groupedElements[position][1]++;
   }
-  return count;
+  return groupedElements;
 };
 
-const elementFrequencies = function (array) {
-  const unique = uniqueElements(array);
-  const elementFrequency = [];
-  for (let index = 0; index < unique.length; index++) {
-    const frequency = countFrequency(array, unique[index])
-    elementFrequency.push([unique[index], frequency]);
-  }
-  return elementFrequency;
-};
+// console.log(indexOf([[[1, 1], 1], [2, 1]], [[1, 1], 1]));
 
-exports.elementFrequencies = elementFrequencies;
+exports.countFrequency = countFrequency;
