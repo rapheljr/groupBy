@@ -13,6 +13,4 @@ const countFrequency = function (array) {
   return groupedElements;
 };
 
-// console.log(indexOf([[[1, 1], 1], [2, 1]], [[1, 1], 1]));
-
 exports.countFrequency = countFrequency;
